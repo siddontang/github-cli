@@ -1,0 +1,38 @@
+account = "siddontang"
+# token = ""
+
+[[repos]]
+owner = "pingcap"
+name = "tikv"
+
+[[repos]]
+owner = "pingcap"
+name = "pd"
+
+[[repos]]
+owner = "pingcap"
+name = "raft-rs"
+
+[[repos]]
+owner = "pingcap"
+name = "grpc-rs"
+
+[[repos]]
+owner = "pingcap"
+name = "rust-prometheus"
+
+[[repos]]
+owner = "pingcap"
+name = "rust-rocksdb"
+
+[[repos]]
+owner = "pingcap"
+name = "fail-rs"
+
+[[repos]]
+owner = "pingcap"
+name = "kvproto"
+
+[[repos]]
+owner = "pingcap"
+name = "docs"
