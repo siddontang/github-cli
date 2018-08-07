@@ -2,7 +2,7 @@ account = "siddontang"
 # token = ""
 
 [[repos]]
-owner = "pingcap"
+owner = "tikv"
 name = "tikv"
 
 [[repos]]

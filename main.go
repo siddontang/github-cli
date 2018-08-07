@@ -34,6 +34,7 @@ func main() {
 	rootCmd.PersistentFlags().StringVarP(&token, "token", "T", "", "Github Token")
 
 	rootCmd.AddCommand(
+		newPullsCommand(),
 		newPullCommand(),
 	)
 
