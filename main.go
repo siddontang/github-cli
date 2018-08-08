@@ -3,7 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"os/user"
+	"path"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -55,6 +59,16 @@ func initGlobal() {
 
 	if len(token) > 0 {
 		cfg.Token = token
+	}
+
+	if len(cfg.Token) == 0 {
+		// try read from ~/.github-cli/token
+		usr, err := user.Current()
+		perror(err)
+		name := path.Join(usr.HomeDir, ".github-cli/token")
+		data, err := ioutil.ReadFile(name)
+		perror(err)
+		cfg.Token = strings.TrimSpace(string(data))
 	}
 
 	if len(cfg.Token) == 0 {
