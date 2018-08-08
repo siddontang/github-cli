@@ -36,6 +36,8 @@ func main() {
 	rootCmd.AddCommand(
 		newPullsCommand(),
 		newPullCommand(),
+		newIssuesCommand(),
+		newIssueCommand(),
 		newTrendingCommand(),
 	)
 

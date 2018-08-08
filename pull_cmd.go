@@ -23,7 +23,7 @@ func newPullsCommand() *cobra.Command {
 		Run:   runPullsCommandFunc,
 	}
 	m.Flags().StringVar(&pullsState, "state", "open", "PR state: open or closed")
-	m.Flags().IntVar(&pullsLimit, "limit", 100, "Maximum pull limit for a repository")
+	m.Flags().IntVar(&pullsLimit, "limit", 20, "Maximum pull limit for a repository")
 	m.Flags().StringVar(&pullsSinceTime, "since", "", fmt.Sprintf("Pull Since Time, format is %s", TimeFormat))
 	m.Flags().StringVar(&pullsOffsetDur, "offset", "-336h", "The offset of since time")
 	return m
@@ -85,7 +85,7 @@ func runPullCommandFunc(cmd *cobra.Command, args []string) {
 	pull, err := globalClient.GetPull(globalCtx, owner, repo, id)
 	perror(err)
 
-	comments, err := globalClient.ListPullComments(globalCtx, owner, repo, pull.GetComments())
+	comments, err := globalClient.ListPullComments(globalCtx, owner, repo, id)
 	perror(err)
 
 	fmt.Printf("Title: %s\n", pull.GetTitle())

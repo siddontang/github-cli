@@ -35,7 +35,7 @@ func NewPullOptions() *PullOptions {
 
 // filterPull checks whether pull meets the options
 func (opts *PullOptions) filterPull(pull *github.PullRequest) bool {
-	if opts.State != pull.GetState() {
+	if opts.State != "all" && opts.State != pull.GetState() {
 		return false
 	}
 
