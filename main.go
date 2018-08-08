@@ -36,6 +36,7 @@ func main() {
 	rootCmd.AddCommand(
 		newPullsCommand(),
 		newPullCommand(),
+		newTrendingCommand(),
 	)
 
 	cobra.OnInitialize(initGlobal)
