@@ -8,8 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const TimeFormat string = "2006-01-02 15:04:05"
-
 var (
 	pullsState     string
 	pullsLimit     int
@@ -19,7 +17,7 @@ var (
 
 func newPullsCommand() *cobra.Command {
 	m := &cobra.Command{
-		Use:   "pulls",
+		Use:   "pulls [owner] [repo]",
 		Short: "Github CLI for listing pulls",
 		Args:  cobra.MinimumNArgs(0),
 		Run:   runPullsCommandFunc,
@@ -49,7 +47,9 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 		opts.Start, opts.End = opts.End, opts.Start
 	}
 
-	m, err := globalClient.ListPulls(globalCtx, opts)
+	repos := filterRepo(globalClient.cfg.Repos, args)
+
+	m, err := globalClient.ListPulls(globalCtx, opts, repos)
 	perror(err)
 
 	for repo, pulls := range m {

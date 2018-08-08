@@ -78,9 +78,9 @@ func (c *Client) ListPullComments(ctx context.Context, owner string, repo string
 	return allComments, nil
 }
 
-func (c *Client) ListPulls(ctx context.Context, opts *PullOptions) (map[string][]*github.PullRequest, error) {
+func (c *Client) ListPulls(ctx context.Context, opts *PullOptions, repos []Repository) (map[string][]*github.PullRequest, error) {
 	m := make(map[string][]*github.PullRequest, len(c.cfg.Repos))
-	for _, repo := range c.cfg.Repos {
+	for _, repo := range repos {
 		pulls, err := c.ListPullsByRepo(ctx, &repo, opts)
 		if err != nil {
 			return nil, err
