@@ -34,7 +34,7 @@ func main() {
 		Short: "Github CLI",
 	}
 
-	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "C", "./config.toml", "Config File")
+	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "C", "", "Config File, default ~/.github-cli/config.toml")
 	rootCmd.PersistentFlags().StringVarP(&token, "token", "T", "", "Github Token")
 
 	rootCmd.AddCommand(
@@ -54,6 +54,12 @@ func main() {
 }
 
 func initGlobal() {
+	usr, err := user.Current()
+	perror(err)
+
+	if len(configFile) == 0 {
+		configFile = path.Join(usr.HomeDir, ".github-cli/config.toml")
+	}
 	cfg, err := NewConfigFromFile(configFile)
 	perror(err)
 
@@ -63,16 +69,10 @@ func initGlobal() {
 
 	if len(cfg.Token) == 0 {
 		// try read from ~/.github-cli/token
-		usr, err := user.Current()
-		perror(err)
 		name := path.Join(usr.HomeDir, ".github-cli/token")
-		data, err := ioutil.ReadFile(name)
-		perror(err)
-		cfg.Token = strings.TrimSpace(string(data))
-	}
-
-	if len(cfg.Token) == 0 {
-		perror(fmt.Errorf("must provide a Github Token"))
+		if data, err := ioutil.ReadFile(name); err == nil {
+			cfg.Token = strings.TrimSpace(string(data))
+		}
 	}
 
 	globalCtx = context.Background()

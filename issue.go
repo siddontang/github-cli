@@ -35,6 +35,10 @@ func NewIssueOptions() *IssueOptions {
 }
 
 func (opts *IssueOptions) filterIssue(issue *github.Issue) bool {
+	if issue.IsPullRequest() {
+		return false
+	}
+
 	if opts.State != "all" && opts.State != issue.GetState() {
 		return false
 	}
