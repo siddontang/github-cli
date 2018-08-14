@@ -42,12 +42,12 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:b0ea4e54e723ef36ba0963c718686854a7766eb3af6a793366cc65f2d5b552cc"
+  branch = "master"
+  digest = "1:9fcfb5dfb97f0f015f97ee68bd17dbb7e869a980006316ffc9f25e27ba14c069"
   name = "github.com/google/go-github"
   packages = ["github"]
   pruneopts = "NUT"
-  revision = "2f5e75efdabb0580de63d34eb414bb2905492d2a"
-  version = "v16.0.0"
+  revision = "d8bee7566740e39c1c0e2c3990e1e5f348458852"
 
 [[projects]]
   branch = "master"
@@ -74,16 +74,16 @@
   revision = "7c4570c3ebeb8129a1f7456d0908a8b676b6f9f1"
 
 [[projects]]
-  digest = "1:15e5c398fbd9d2c439b635a08ac161b13d04f0c2aa587fe256b65dc0c3efe8b7"
+  digest = "1:e3707aeaccd2adc89eba6c062fec72116fe1fc1ba71097da85b4d8ae1668a675"
   name = "github.com/spf13/pflag"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
-  version = "v1.0.1"
+  revision = "9a97c102cda95a86cec2345a6f09f55a939babf5"
+  version = "v1.0.2"
 
 [[projects]]
   branch = "master"
-  digest = "1:01b95c545812ebf9e1fd9af889a369812099e84933171eeeeb6d1f93e1b34173"
+  digest = "1:aa58645c149c9c3b62dc7ff51460602a88fc7b887633f2546fcdde27c91e6f03"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -92,7 +92,7 @@
     "html/atom",
   ]
   pruneopts = "NUT"
-  revision = "f9ce57c11b242f0f1599cf25c89d8cb02c45295a"
+  revision = "c39426892332e1bb5ec0a434a079bf82f5d30c54"
 
 [[projects]]
   branch = "master"

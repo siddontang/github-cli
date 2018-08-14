@@ -39,10 +39,6 @@ func (opts *IssueOptions) filterIssue(issue *github.Issue) bool {
 		return false
 	}
 
-	if opts.State != "all" && opts.State != issue.GetState() {
-		return false
-	}
-
 	at := issue.GetUpdatedAt()
 	if opts.End.Before(at) {
 		return false
