@@ -31,11 +31,12 @@ github-cli trending go --time weekly
 ```bash
 github-cli pulls
 # List pull requests of repositories configured in tikv organization
-github-cli pulls tikv
+github-cli pulls --owner tikv
 # List pull requests of tikv repository in tikv organization 
-github-cli pulls tikv tikv
+github-cli pulls tikv
+# or use github-cli pulls tikv/tikv
 # See one pull request
-github-cli pull tikv tikv 3344
+github-cli pull tikv 3344
 ```
 
 ### Issue
@@ -43,9 +44,10 @@ github-cli pull tikv tikv 3344
 ```bash
 github-cli issues
 # List issues of repositories configured in tikv organization 
-github-cli issues tikv
+github-cli issues --owner tikv
 # List issues of tikv repository in tikv organization 
-github-cli issues tikv tikv
+github-cli issues tikv
+# or use github-cli issues tikv/tikv
 # See one issue 
-github-cli issue tikv tikv 3355
+github-cli issue tikv 3355
 ```

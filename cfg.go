@@ -32,3 +32,18 @@ func NewConfigFromFile(path string) (*Config, error) {
 
 	return c, nil
 }
+
+// FindRepo finds a repository.
+func (c *Config) FindRepo(owner string, name string) *Repository {
+	for _, repo := range c.Repos {
+		if len(owner) == 0 && repo.Name == name {
+			return &repo
+		}
+
+		if repo.Name == name && repo.Owner == owner {
+			return &repo
+		}
+	}
+
+	return nil
+}

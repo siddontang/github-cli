@@ -13,19 +13,21 @@ var (
 	issuesLimit      int
 	issuesSinceTime  string
 	issuessOffsetDur string
+	issuesOwner      string
 )
 
 func newIssuesCommand() *cobra.Command {
 	m := &cobra.Command{
-		Use:   "issues [owner] [repo]",
+		Use:   "issues [repo]",
 		Short: "Github CLI for listing issues",
 		Args:  cobra.MinimumNArgs(0),
 		Run:   runIssuesCommandFunc,
 	}
-	m.Flags().StringVar(&issuesState, "state", "open", "PR state: open or closed")
-	m.Flags().IntVar(&issuesLimit, "limit", 20, "Maximum pull limit for a repository")
+	m.Flags().StringVar(&issuesState, "state", "open", "Issue state: open or closed")
+	m.Flags().IntVar(&issuesLimit, "limit", 20, "Maximum issues limit for a repository")
 	m.Flags().StringVar(&issuesSinceTime, "since", "", fmt.Sprintf("Pull Since Time, format is %s", TimeFormat))
 	m.Flags().StringVar(&issuessOffsetDur, "offset", "-336h", "The offset of since time")
+	m.Flags().StringVar(&issuesOwner, "owner", "", "The Github account")
 	return m
 }
 
@@ -47,7 +49,7 @@ func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
 		opts.Start, opts.End = opts.End, opts.Start
 	}
 
-	repos := filterRepo(globalClient.cfg.Repos, args)
+	repos := filterRepo(globalClient.cfg, issuesOwner, args)
 
 	m, err := globalClient.ListIssues(globalCtx, opts, repos)
 	perror(err)
@@ -66,9 +68,9 @@ var (
 
 func newIssueCommand() *cobra.Command {
 	m := &cobra.Command{
-		Use:   "issue [owner] [repo] [id]",
+		Use:   "issue [repo] [id]",
 		Short: "Github CLI for getting one pull",
-		Args:  cobra.MinimumNArgs(3),
+		Args:  cobra.MinimumNArgs(2),
 		Run:   runIssueCommandFunc,
 	}
 
@@ -77,15 +79,15 @@ func newIssueCommand() *cobra.Command {
 }
 
 func runIssueCommandFunc(cmd *cobra.Command, args []string) {
-	owner := args[0]
-	repo := args[1]
-	id, err := strconv.Atoi(args[2])
+	id, err := strconv.Atoi(args[1])
 	perror(err)
 
-	issue, err := globalClient.GetIssue(globalCtx, owner, repo, id)
+	repo := findRepo(globalClient.cfg, args)
+
+	issue, err := globalClient.GetIssue(globalCtx, repo.Owner, repo.Name, id)
 	perror(err)
 
-	comments, err := globalClient.ListIssueComments(globalCtx, owner, repo, id)
+	comments, err := globalClient.ListIssueComments(globalCtx, repo.Owner, repo.Name, id)
 	perror(err)
 
 	fmt.Printf("Title: %s\n", issue.GetTitle())

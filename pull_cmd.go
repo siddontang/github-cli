@@ -13,11 +13,12 @@ var (
 	pullsLimit     int
 	pullsSinceTime string
 	pullsOffsetDur string
+	pullsOwner     string
 )
 
 func newPullsCommand() *cobra.Command {
 	m := &cobra.Command{
-		Use:   "pulls [owner] [repo]",
+		Use:   "pulls [repo]",
 		Short: "Github CLI for listing pulls",
 		Args:  cobra.MinimumNArgs(0),
 		Run:   runPullsCommandFunc,
@@ -26,6 +27,7 @@ func newPullsCommand() *cobra.Command {
 	m.Flags().IntVar(&pullsLimit, "limit", 20, "Maximum pull limit for a repository")
 	m.Flags().StringVar(&pullsSinceTime, "since", "", fmt.Sprintf("Pull Since Time, format is %s", TimeFormat))
 	m.Flags().StringVar(&pullsOffsetDur, "offset", "-336h", "The offset of since time")
+	m.Flags().StringVar(&pullsOwner, "owner", "", "The Github account")
 	return m
 }
 
@@ -47,7 +49,7 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 		opts.Start, opts.End = opts.End, opts.Start
 	}
 
-	repos := filterRepo(globalClient.cfg.Repos, args)
+	repos := filterRepo(globalClient.cfg, pullsOwner, args)
 
 	m, err := globalClient.ListPulls(globalCtx, opts, repos)
 	perror(err)
@@ -66,9 +68,9 @@ var (
 
 func newPullCommand() *cobra.Command {
 	m := &cobra.Command{
-		Use:   "pull [owner] [repo] [id]",
+		Use:   "pull [repo] [id]",
 		Short: "Github CLI for getting one pull",
-		Args:  cobra.MinimumNArgs(3),
+		Args:  cobra.MinimumNArgs(2),
 		Run:   runPullCommandFunc,
 	}
 
@@ -77,15 +79,15 @@ func newPullCommand() *cobra.Command {
 }
 
 func runPullCommandFunc(cmd *cobra.Command, args []string) {
-	owner := args[0]
-	repo := args[1]
-	id, err := strconv.Atoi(args[2])
+	id, err := strconv.Atoi(args[1])
 	perror(err)
 
-	pull, err := globalClient.GetPull(globalCtx, owner, repo, id)
+	repo := findRepo(globalClient.cfg, args)
+
+	pull, err := globalClient.GetPull(globalCtx, repo.Owner, repo.Name, id)
 	perror(err)
 
-	comments, err := globalClient.ListPullComments(globalCtx, owner, repo, id)
+	comments, err := globalClient.ListPullComments(globalCtx, repo.Owner, repo.Name, id)
 	perror(err)
 
 	fmt.Printf("Title: %s\n", pull.GetTitle())
