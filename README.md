@@ -51,3 +51,12 @@ github-cli issues tikv
 # See one issue 
 github-cli issue tikv 3355
 ```
+
+### Event
+
+```bash
+# List events for the account in the configuration file
+github-cli events 
+# List events for a specified user
+github-cli events siddontang
+```

@@ -1,7 +1,38 @@
 package main
 
+import "time"
+
 // TimeFormat is the foramt for time output
 const TimeFormat string = "2006-01-02 15:04:05"
+
+// RangeTime is a time range in [start, end]
+type RangeTime struct {
+	Start time.Time
+	End   time.Time
+}
+
+func newRangeTime() RangeTime {
+	n := time.Now()
+	return RangeTime{
+		Start: n.Add(-7 * 24 * time.Hour),
+		End:   n,
+	}
+}
+
+func (r *RangeTime) adjust(sinceTime string, offsetDur string) {
+	if len(sinceTime) > 0 {
+		end, err := time.Parse(TimeFormat, sinceTime)
+		perror(err)
+		r.End = end
+	}
+
+	d, err := time.ParseDuration(offsetDur)
+	perror(err)
+	r.Start = r.End.Add(d)
+	if r.Start.After(r.End) {
+		r.Start, r.End = r.End, r.Start
+	}
+}
 
 func adjustRepoName(owner string, args []string) (string, string) {
 	name := ""

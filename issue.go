@@ -3,15 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/google/go-github/github"
 )
 
 // IssueOptions is the options for listing issues
 type IssueOptions struct {
-	Start time.Time
-	End   time.Time
+	RangeTime
+
 	// open, closed, all
 	// default open
 	State string
@@ -24,13 +23,11 @@ type IssueOptions struct {
 
 // NewIssueOptions creates a default Pull Option
 func NewIssueOptions() *IssueOptions {
-	n := time.Now()
 	return &IssueOptions{
-		Start: n.Add(-14 * 24 * time.Hour),
-		End:   n,
-		State: "open",
-		Sort:  "updated",
-		Limit: 20,
+		RangeTime: newRangeTime(),
+		State:     "open",
+		Sort:      "updated",
+		Limit:     20,
 	}
 }
 

@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -36,18 +35,7 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 	opts.State = pullsState
 	opts.Limit = pullsLimit
 
-	if len(pullsSinceTime) > 0 {
-		end, err := time.Parse(TimeFormat, pullsSinceTime)
-		perror(err)
-		opts.End = end
-	}
-
-	d, err := time.ParseDuration(pullsOffsetDur)
-	perror(err)
-	opts.Start = opts.End.Add(d)
-	if opts.Start.After(opts.End) {
-		opts.Start, opts.End = opts.End, opts.Start
-	}
+	opts.RangeTime.adjust(pullsSinceTime, pullsOffsetDur)
 
 	repos := filterRepo(globalClient.cfg, pullsOwner, args)
 

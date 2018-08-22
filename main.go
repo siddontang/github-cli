@@ -43,6 +43,7 @@ func main() {
 		newIssuesCommand(),
 		newIssueCommand(),
 		newTrendingCommand(),
+		newEventsCommand(),
 	)
 
 	cobra.OnInitialize(initGlobal)

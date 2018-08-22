@@ -3,17 +3,16 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	issuesState      string
-	issuesLimit      int
-	issuesSinceTime  string
-	issuessOffsetDur string
-	issuesOwner      string
+	issuesState     string
+	issuesLimit     int
+	issuesSinceTime string
+	issuesOffsetDur string
+	issuesOwner     string
 )
 
 func newIssuesCommand() *cobra.Command {
@@ -25,8 +24,8 @@ func newIssuesCommand() *cobra.Command {
 	}
 	m.Flags().StringVar(&issuesState, "state", "open", "Issue state: open or closed")
 	m.Flags().IntVar(&issuesLimit, "limit", 20, "Maximum issues limit for a repository")
-	m.Flags().StringVar(&issuesSinceTime, "since", "", fmt.Sprintf("Pull Since Time, format is %s", TimeFormat))
-	m.Flags().StringVar(&issuessOffsetDur, "offset", "-336h", "The offset of since time")
+	m.Flags().StringVar(&issuesSinceTime, "since", "", fmt.Sprintf("Issue Since Time, format is %s", TimeFormat))
+	m.Flags().StringVar(&issuesOffsetDur, "offset", "-336h", "The offset of since time")
 	m.Flags().StringVar(&issuesOwner, "owner", "", "The Github account")
 	return m
 }
@@ -36,18 +35,7 @@ func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
 	opts.State = issuesState
 	opts.Limit = issuesLimit
 
-	if len(issuesSinceTime) > 0 {
-		end, err := time.Parse(TimeFormat, issuesSinceTime)
-		perror(err)
-		opts.End = end
-	}
-
-	d, err := time.ParseDuration(issuessOffsetDur)
-	perror(err)
-	opts.Start = opts.End.Add(d)
-	if opts.Start.After(opts.End) {
-		opts.Start, opts.End = opts.End, opts.Start
-	}
+	opts.RangeTime.adjust(issuesSinceTime, issuesOffsetDur)
 
 	repos := filterRepo(globalClient.cfg, issuesOwner, args)
 

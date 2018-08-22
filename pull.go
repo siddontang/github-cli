@@ -3,15 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/google/go-github/github"
 )
 
 // PullOptions is the options for listing pulls
 type PullOptions struct {
-	Start time.Time
-	End   time.Time
+	RangeTime
+
 	// open or closed
 	State string
 	// created, updated, popularity, long-running
@@ -23,13 +22,11 @@ type PullOptions struct {
 
 // NewPullOptions creates a default Pull Option
 func NewPullOptions() *PullOptions {
-	n := time.Now()
 	return &PullOptions{
-		Start: n.Add(-14 * 24 * time.Hour),
-		End:   n,
-		State: "closed",
-		Sort:  "updated",
-		Limit: 20,
+		RangeTime: newRangeTime(),
+		State:     "closed",
+		Sort:      "updated",
+		Limit:     20,
 	}
 }
 
