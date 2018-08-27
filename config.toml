@@ -1,5 +1,4 @@
 account = "siddontang"
-# token = ""
 
 [[repos]]
 owner = "tikv"

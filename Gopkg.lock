@@ -27,27 +27,27 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:6345f8f30f8272c99412adcc0c088abd48c8528e47a55e251dcfe304be94693e"
+  digest = "1:9dfdc3fcabc8b0f652a9f5065917bc63d08a290b0b67939704b0d82e9eb7682f"
   name = "github.com/andygrunwald/go-trending"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "52fad8435aeccb1c2f39abac5211a00748e4c41b"
+  revision = "5a4d422f8977c920038cdd9523a0c5e711053387"
 
 [[projects]]
-  digest = "1:15042ad3498153684d09f393bbaec6b216c8eec6d61f63dff711de7d64ed8861"
+  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   pruneopts = "NUT"
-  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
-  version = "v1.1.0"
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:9fcfb5dfb97f0f015f97ee68bd17dbb7e869a980006316ffc9f25e27ba14c069"
+  digest = "1:4be3c01ef56542da4f1268c52a8b88bae5309ec3dade7755e250bc933e13ac70"
   name = "github.com/google/go-github"
   packages = ["github"]
   pruneopts = "NUT"
-  revision = "d8bee7566740e39c1c0e2c3990e1e5f348458852"
+  revision = "d7732128a00e8e95e8fe896017da18ee20b2180d"
 
 [[projects]]
   branch = "master"
@@ -67,11 +67,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:343d44e06621142ab09ae0c76c1799104cdfddd3ffb445d78b1adf8dc3ffaf3d"
+  digest = "1:455a9e33f7716f9a2e0d1f65e2d04941d311cd5cc40a96f957b2e4e8724a2faa"
   name = "github.com/spf13/cobra"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "7c4570c3ebeb8129a1f7456d0908a8b676b6f9f1"
+  revision = "6fd8e29b07d8242ebe2888060fede5766e240c25"
 
 [[projects]]
   digest = "1:e3707aeaccd2adc89eba6c062fec72116fe1fc1ba71097da85b4d8ae1668a675"
@@ -83,7 +83,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:aa58645c149c9c3b62dc7ff51460602a88fc7b887633f2546fcdde27c91e6f03"
+  digest = "1:a68719d2153ea68c93f03dad903b25da2585e2cf5b8544b25aaf8e6d32163e43"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -92,18 +92,18 @@
     "html/atom",
   ]
   pruneopts = "NUT"
-  revision = "c39426892332e1bb5ec0a434a079bf82f5d30c54"
+  revision = "8a410e7b638dca158bf9e766925842f6651ff828"
 
 [[projects]]
   branch = "master"
-  digest = "1:806685616259192286b80e5924f92aad0a1cd880959cecd6441925f393a4a34d"
+  digest = "1:db0ef10bef8ec68d343f7371d5d6006c1086b5882654e10e7cc9335bfb551b8d"
   name = "golang.org/x/oauth2"
   packages = [
     ".",
     "internal",
   ]
   pruneopts = "NUT"
-  revision = "3d292e4d0cdc3a0113e6d207bb137145ef1de42f"
+  revision = "d2e6202438beef2727060aa7cabdd924d92ebfd9"
 
 [[projects]]
   digest = "1:af71cb57ffcbc389c2f8af1e6a763c0d2e6f08d2ceb64140c0fd4c57fdbc2898"
