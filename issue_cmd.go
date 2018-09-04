@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -13,6 +14,7 @@ var (
 	issuesSinceTime string
 	issuesOffsetDur string
 	issuesOwner     string
+	issuesAssignees string
 )
 
 func newIssuesCommand() *cobra.Command {
@@ -25,8 +27,9 @@ func newIssuesCommand() *cobra.Command {
 	m.Flags().StringVar(&issuesState, "state", "open", "Issue state: open or closed")
 	m.Flags().IntVar(&issuesLimit, "limit", 20, "Maximum issues limit for a repository")
 	m.Flags().StringVar(&issuesSinceTime, "since", "", fmt.Sprintf("Issue Since Time, format is %s", TimeFormat))
-	m.Flags().StringVar(&issuesOffsetDur, "offset", "-336h", "The offset of since time")
+	m.Flags().StringVar(&issuesOffsetDur, "offset", "-48h", "The offset of since time")
 	m.Flags().StringVar(&issuesOwner, "owner", "", "The Github account")
+	m.Flags().StringVar(&issuesAssignees, "assignees", "", "Assignees for the issue, separated by comma")
 	return m
 }
 
@@ -34,6 +37,7 @@ func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
 	opts := NewIssueOptions()
 	opts.State = issuesState
 	opts.Limit = issuesLimit
+	opts.Assignees = strings.Split(issuesAssignees, ",")
 
 	opts.RangeTime.adjust(issuesSinceTime, issuesOffsetDur)
 

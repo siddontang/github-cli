@@ -1,6 +1,10 @@
 package main
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/go-github/github"
+)
 
 // TimeFormat is the foramt for time output
 const TimeFormat string = "2006-01-02 15:04:05"
@@ -90,4 +94,20 @@ func filterRepo(c *Config, owner string, args []string) []Repository {
 	return []Repository{
 		{Owner: owner, Name: name},
 	}
+}
+
+func filterUsers(users []*github.User, names []string) bool {
+	if len(names) == 0 {
+		return true
+	}
+
+	for _, name := range names {
+		for _, user := range users {
+			if user.GetLogin() == name {
+				return true
+			}
+		}
+	}
+
+	return false
 }

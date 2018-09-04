@@ -19,6 +19,8 @@ type IssueOptions struct {
 	Sort string
 	// maximum number
 	Limit int
+
+	Assignees []string
 }
 
 // NewIssueOptions creates a default Pull Option
@@ -107,6 +109,10 @@ LOOP:
 
 		for _, issue := range issues {
 			if !opts.filterIssue(issue) {
+				continue
+			}
+
+			if !filterUsers(issue.Assignees, opts.Assignees) {
 				continue
 			}
 

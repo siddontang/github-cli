@@ -18,6 +18,8 @@ type PullOptions struct {
 	Sort string
 	// maximum number
 	Limit int
+
+	Reviewers []string
 }
 
 // NewPullOptions creates a default Pull Option
@@ -102,6 +104,11 @@ LOOP:
 
 		for _, pull := range pulls {
 			if !opts.filterPull(pull) {
+				continue
+			}
+
+			// filter reviewers
+			if !filterUsers(pull.RequestedReviewers, opts.Reviewers) {
 				continue
 			}
 

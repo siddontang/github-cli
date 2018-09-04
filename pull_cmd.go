@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -13,6 +14,7 @@ var (
 	pullsSinceTime string
 	pullsOffsetDur string
 	pullsOwner     string
+	pullsReviewers string
 )
 
 func newPullsCommand() *cobra.Command {
@@ -25,8 +27,9 @@ func newPullsCommand() *cobra.Command {
 	m.Flags().StringVar(&pullsState, "state", "open", "PR state: open or closed")
 	m.Flags().IntVar(&pullsLimit, "limit", 20, "Maximum pull limit for a repository")
 	m.Flags().StringVar(&pullsSinceTime, "since", "", fmt.Sprintf("Pull Since Time, format is %s", TimeFormat))
-	m.Flags().StringVar(&pullsOffsetDur, "offset", "-336h", "The offset of since time")
+	m.Flags().StringVar(&pullsOffsetDur, "offset", "-48h", "The offset of since time")
 	m.Flags().StringVar(&pullsOwner, "owner", "", "The Github account")
+	m.Flags().StringVar(&pullsReviewers, "reviewers", "", "Request reivewers, separated by comma")
 	return m
 }
 
@@ -34,6 +37,7 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 	opts := NewPullOptions()
 	opts.State = pullsState
 	opts.Limit = pullsLimit
+	opts.Reviewers = strings.Split(pullsReviewers, ",")
 
 	opts.RangeTime.adjust(pullsSinceTime, pullsOffsetDur)
 
