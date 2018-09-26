@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -37,7 +36,7 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 	opts := NewPullOptions()
 	opts.State = pullsState
 	opts.Limit = pullsLimit
-	opts.Reviewers = strings.Split(pullsReviewers, ",")
+	opts.Reviewers = splitUsers(pullsReviewers)
 
 	opts.RangeTime.adjust(pullsSinceTime, pullsOffsetDur)
 

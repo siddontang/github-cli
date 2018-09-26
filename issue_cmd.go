@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -37,7 +36,7 @@ func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
 	opts := NewIssueOptions()
 	opts.State = issuesState
 	opts.Limit = issuesLimit
-	opts.Assignees = strings.Split(issuesAssignees, ",")
+	opts.Assignees = splitUsers(issuesAssignees)
 
 	opts.RangeTime.adjust(issuesSinceTime, issuesOffsetDur)
 

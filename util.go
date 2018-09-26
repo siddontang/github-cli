@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"time"
 
 	"github.com/google/go-github/github"
@@ -94,6 +95,14 @@ func filterRepo(c *Config, owner string, args []string) []Repository {
 	return []Repository{
 		{Owner: owner, Name: name},
 	}
+}
+
+func splitUsers(s string) []string {
+	if len(s) == 0 {
+		return []string{}
+	}
+
+	return strings.Split(s, ",")
 }
 
 func filterUsers(users []*github.User, names []string) bool {
