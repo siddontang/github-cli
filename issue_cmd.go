@@ -46,6 +46,10 @@ func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
 	perror(err)
 
 	for repo, issues := range m {
+		if len(issues) == 0 {
+			continue
+		}
+
 		fmt.Println(repo)
 		for _, issue := range issues {
 			fmt.Printf("%s %s %s\n", issue.GetUpdatedAt().Format(TimeFormat), issue.GetHTMLURL(), issue.GetTitle())

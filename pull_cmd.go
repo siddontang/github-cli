@@ -46,6 +46,10 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 	perror(err)
 
 	for repo, pulls := range m {
+		if len(pulls) == 0 {
+			continue
+		}
+
 		fmt.Println(repo)
 		for _, pull := range pulls {
 			fmt.Printf("%s %s %s\n", pull.GetUpdatedAt().Format(TimeFormat), pull.GetHTMLURL(), pull.GetTitle())
