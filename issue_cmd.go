@@ -50,9 +50,9 @@ func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
 			continue
 		}
 
-		fmt.Println(repo)
+		fmt.Fprintln(&output, repo)
 		for _, issue := range issues {
-			fmt.Printf("%s %s %s\n", issue.GetUpdatedAt().Format(TimeFormat), issue.GetHTMLURL(), issue.GetTitle())
+			fmt.Fprintf(&output, "%s %s %s\n", issue.GetUpdatedAt().Format(TimeFormat), issue.GetHTMLURL(), issue.GetTitle())
 		}
 	}
 }
@@ -85,13 +85,13 @@ func runIssueCommandFunc(cmd *cobra.Command, args []string) {
 	comments, err := globalClient.ListIssueComments(globalCtx, repo.Owner, repo.Name, id)
 	perror(err)
 
-	fmt.Printf("Title: %s\n", issue.GetTitle())
-	fmt.Printf("Created at %s\n", issue.GetCreatedAt().Format(TimeFormat))
-	fmt.Printf("Message:\n %s\n", issue.GetBody())
+	fmt.Fprintf(&output, "Title: %s\n", issue.GetTitle())
+	fmt.Fprintf(&output, "Created at %s\n", issue.GetCreatedAt().Format(TimeFormat))
+	fmt.Fprintf(&output, "Message:\n %s\n", issue.GetBody())
 	if len(comments) > issueCommentLimit {
 		comments = comments[0:issueCommentLimit]
 	}
 	for _, comment := range comments {
-		fmt.Printf("Comment:\n %s\n", comment.GetBody())
+		fmt.Fprintf(&output, "Comment:\n %s\n", comment.GetBody())
 	}
 }

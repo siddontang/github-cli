@@ -1,22 +1,26 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/user"
 	"path"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
 
 var (
 	token        string
+	slackUsed    bool
+	slackToken   string
+	slackChannel string
 	configFile   string
 	globalCtx    context.Context
+	globalCfg    *Config
 	globalClient *Client
+	output       bytes.Buffer
 )
 
 func perror(err error) {
@@ -36,6 +40,9 @@ func main() {
 
 	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "C", "", "Config File, default ~/.github-cli/config.toml")
 	rootCmd.PersistentFlags().StringVarP(&token, "token", "T", "", "Github Token")
+	rootCmd.PersistentFlags().BoolVar(&slackUsed, "slack", false, "Send result to slack")
+	rootCmd.PersistentFlags().StringVar(&slackToken, "slack_token", "", "Slack Token")
+	rootCmd.PersistentFlags().StringVar(&slackChannel, "slack_channel", "", "Slack channel")
 
 	rootCmd.AddCommand(
 		newPullsCommand(),
@@ -51,6 +58,12 @@ func main() {
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(rootCmd.UsageString())
+	}
+
+	fmt.Println(output.String())
+
+	if slackUsed {
+		SendToSlack(globalCfg.Slack, output.String())
 	}
 }
 
@@ -68,14 +81,15 @@ func initGlobal() {
 		cfg.Token = token
 	}
 
-	if len(cfg.Token) == 0 {
-		// try read from ~/.github-cli/token
-		name := path.Join(usr.HomeDir, ".github-cli/token")
-		if data, err := ioutil.ReadFile(name); err == nil {
-			cfg.Token = strings.TrimSpace(string(data))
-		}
+	if len(slackToken) > 0 {
+		cfg.Slack.Token = slackToken
+	}
+
+	if len(slackChannel) > 0 {
+		cfg.Slack.Channel = slackChannel
 	}
 
 	globalCtx = context.Background()
+	globalCfg = cfg
 	globalClient = NewClient(globalCtx, cfg)
 }

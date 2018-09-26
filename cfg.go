@@ -12,10 +12,18 @@ type Repository struct {
 	Name  string `toml:"name"`
 }
 
+// Slack configuration
+type Slack struct {
+	Token   string `toml:"token"`
+	Channel string `toml:"channel"`
+	User    string `toml:"user"`
+}
+
 // Config is the configuration for the tool
 type Config struct {
 	Account string       `toml:"account"`
 	Token   string       `toml:"token"`
+	Slack   Slack        `toml:"slack"`
 	Repos   []Repository `toml:"repos"`
 }
 

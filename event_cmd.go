@@ -41,6 +41,6 @@ func runEventsCommandFunc(cmd *cobra.Command, args []string) {
 	perror(err)
 
 	for _, event := range events {
-		fmt.Printf("%s - %s\n", event.GetCreatedAt().Format(TimeFormat), formatEvent(event))
+		fmt.Fprintf(&output, "%s - %s\n", event.GetCreatedAt().Format(TimeFormat), formatEvent(event))
 	}
 }

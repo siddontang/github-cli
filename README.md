@@ -10,9 +10,7 @@ A simple tool to help me manages too many Github repositories.
     mkdir -p ~/.github-cli
     ```
 
-2. [Option] Create a personal [token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and save this token to `~/.github-cli/token`.
-
-3. Create a configuration in `~/.github-cli/config.toml`, see [example](./config.toml) here.
+2. Create a configuration in `~/.github-cli/config.toml`, see [example](./config.toml) here.
 
 ## Usage
 

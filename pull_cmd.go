@@ -50,9 +50,9 @@ func runPullsCommandFunc(cmd *cobra.Command, args []string) {
 			continue
 		}
 
-		fmt.Println(repo)
+		fmt.Fprintln(&output, repo)
 		for _, pull := range pulls {
-			fmt.Printf("%s %s %s\n", pull.GetUpdatedAt().Format(TimeFormat), pull.GetHTMLURL(), pull.GetTitle())
+			fmt.Fprintf(&output, "%s %s %s\n", pull.GetUpdatedAt().Format(TimeFormat), pull.GetHTMLURL(), pull.GetTitle())
 		}
 	}
 }
@@ -85,13 +85,13 @@ func runPullCommandFunc(cmd *cobra.Command, args []string) {
 	comments, err := globalClient.ListPullComments(globalCtx, repo.Owner, repo.Name, id)
 	perror(err)
 
-	fmt.Printf("Title: %s\n", pull.GetTitle())
-	fmt.Printf("Created at %s\n", pull.GetCreatedAt().Format(TimeFormat))
-	fmt.Printf("Message:\n %s\n", pull.GetBody())
+	fmt.Fprintf(&output, "Title: %s\n", pull.GetTitle())
+	fmt.Fprintf(&output, "Created at %s\n", pull.GetCreatedAt().Format(TimeFormat))
+	fmt.Fprintf(&output, "Message:\n %s\n", pull.GetBody())
 	if len(comments) > pullCommentLimit {
 		comments = comments[0:pullCommentLimit]
 	}
 	for _, comment := range comments {
-		fmt.Printf("Comment:\n %s\n", comment.GetBody())
+		fmt.Fprintf(&output, "Comment:\n %s\n", comment.GetBody())
 	}
 }
