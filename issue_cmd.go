@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -33,16 +34,28 @@ func newIssuesCommand() *cobra.Command {
 }
 
 func runIssuesCommandFunc(cmd *cobra.Command, args []string) {
-	opts := NewIssueOptions()
-	opts.State = issuesState
-	opts.Limit = issuesLimit
-	opts.Assignees = splitUsers(issuesAssignees)
+	opts := SearchOptions{
+		Order: "desc",
+		Sort:  "updated",
+		Limit: issuesLimit,
+	}
 
-	opts.RangeTime.adjust(issuesSinceTime, issuesOffsetDur)
+	queryArgs := url.Values{}
+	users := splitUsers(issuesAssignees)
+	for _, user := range users {
+		queryArgs.Add("assignee", user)
+	}
+
+	queryArgs.Add("is", "issue")
+	rangeTime := newRangeTime()
+	rangeTime.adjust(issuesSinceTime, issuesOffsetDur)
+
+	queryArgs.Add("updated", rangeTime.String())
+	queryArgs.Add("state", issuesState)
 
 	repos := filterRepo(globalClient.cfg, issuesOwner, args)
 
-	m, err := globalClient.ListIssues(globalCtx, opts, repos)
+	m, err := globalClient.SearchIssues(globalCtx, repos, opts, queryArgs)
 	perror(err)
 
 	for repo, issues := range m {

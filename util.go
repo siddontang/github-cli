@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -8,7 +9,7 @@ import (
 )
 
 // TimeFormat is the foramt for time output
-const TimeFormat string = "2006-01-02 15:04:05"
+const TimeFormat string = "2006-01-02T15:04:05"
 
 // RangeTime is a time range in [start, end]
 type RangeTime struct {
@@ -22,6 +23,10 @@ func newRangeTime() RangeTime {
 		Start: n.Add(-7 * 24 * time.Hour),
 		End:   n,
 	}
+}
+
+func (r *RangeTime) String() string {
+	return fmt.Sprintf("%s..%s", r.Start.Format(TimeFormat), r.End.Format(TimeFormat))
 }
 
 func (r *RangeTime) adjust(sinceTime string, offsetDur string) {

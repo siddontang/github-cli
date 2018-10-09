@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 
 	"github.com/BurntSushi/toml"
@@ -10,6 +11,10 @@ import (
 type Repository struct {
 	Owner string `toml:"owner"`
 	Name  string `toml:"name"`
+}
+
+func (r Repository) String() string {
+	return fmt.Sprintf("%s/%s", r.Owner, r.Name)
 }
 
 // Slack configuration

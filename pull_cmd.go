@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -33,16 +34,28 @@ func newPullsCommand() *cobra.Command {
 }
 
 func runPullsCommandFunc(cmd *cobra.Command, args []string) {
-	opts := NewPullOptions()
-	opts.State = pullsState
-	opts.Limit = pullsLimit
-	opts.Reviewers = splitUsers(pullsReviewers)
+	opts := SearchOptions{
+		Order: "desc",
+		Sort:  "updated",
+		Limit: issuesLimit,
+	}
 
-	opts.RangeTime.adjust(pullsSinceTime, pullsOffsetDur)
+	queryArgs := url.Values{}
+	users := splitUsers(pullsReviewers)
+	for _, user := range users {
+		queryArgs.Add("assignee", user)
+	}
+
+	queryArgs.Add("is", "pr")
+	rangeTime := newRangeTime()
+	rangeTime.adjust(pullsSinceTime, pullsOffsetDur)
+
+	queryArgs.Add("updated", rangeTime.String())
+	queryArgs.Add("state", pullsState)
 
 	repos := filterRepo(globalClient.cfg, pullsOwner, args)
 
-	m, err := globalClient.ListPulls(globalCtx, opts, repos)
+	m, err := globalClient.SearchIssues(globalCtx, repos, opts, queryArgs)
 	perror(err)
 
 	for repo, pulls := range m {
