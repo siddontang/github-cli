@@ -40,9 +40,6 @@ func main() {
 
 	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "C", "", "Config File, default ~/.github-cli/config.toml")
 	rootCmd.PersistentFlags().StringVarP(&token, "token", "T", "", "Github Token")
-	rootCmd.PersistentFlags().BoolVar(&slackUsed, "slack", false, "Send result to slack")
-	rootCmd.PersistentFlags().StringVar(&slackToken, "slack_token", "", "Slack Token")
-	rootCmd.PersistentFlags().StringVar(&slackChannel, "slack_channel", "", "Slack channel")
 
 	rootCmd.AddCommand(
 		newPullsCommand(),
@@ -62,7 +59,7 @@ func main() {
 
 	fmt.Println(output.String())
 
-	if slackUsed {
+	if len(globalCfg.Slack.Token) > 0 {
 		SendToSlack(globalCfg.Slack, output.String())
 	}
 }
@@ -79,14 +76,6 @@ func initGlobal() {
 
 	if len(token) > 0 {
 		cfg.Token = token
-	}
-
-	if len(slackToken) > 0 {
-		cfg.Slack.Token = slackToken
-	}
-
-	if len(slackChannel) > 0 {
-		cfg.Slack.Channel = slackChannel
 	}
 
 	globalCtx = context.Background()
