@@ -3,44 +3,20 @@ account = "siddontang"
 # Github Token, see https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
 token = ""
 
+repos = [
+    "tikv/tikv", 
+    "pingcap/pd", 
+    "pingcap/raft-rs", 
+    "pingcap/grpc-rs",
+    "pingcap/rust-prometheus", 
+    "pingcap/rust-rocksdb", 
+    "pingcap/fail-rs", 
+    "pingcap/kvproto",
+    "pingcap/go-ycsb",
+]
+
 # Slack
 # [slack]
 # token = ""
 # channel = ""
 # user = ""
-
-[[repos]]
-owner = "tikv"
-name = "tikv"
-
-[[repos]]
-owner = "pingcap"
-name = "pd"
-
-[[repos]]
-owner = "pingcap"
-name = "raft-rs"
-
-[[repos]]
-owner = "pingcap"
-name = "grpc-rs"
-
-[[repos]]
-owner = "pingcap"
-name = "rust-prometheus"
-
-[[repos]]
-owner = "pingcap"
-name = "rust-rocksdb"
-
-[[repos]]
-owner = "pingcap"
-name = "fail-rs"
-
-[[repos]]
-owner = "pingcap"
-name = "kvproto"
-
-[[repos]]
-owner = "pingcap"
-name = "docs"
